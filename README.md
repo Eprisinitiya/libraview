@@ -62,7 +62,7 @@ src/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/libraview.git
+   git clone https://github.com/Eprisinitiya/libraview.git
    cd libraview
    ```
 
