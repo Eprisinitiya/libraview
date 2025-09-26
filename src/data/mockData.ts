@@ -132,36 +132,38 @@ export const mockLibraryData: LibraryData = {
 };
 
 export const filterOptions = [
-  { id: 'all', label: 'All Spots', icon: 'apps' },
-  { id: 'silent', label: 'Silent Zone', icon: 'volume-off' },
-  { id: 'group', label: 'Group Study', icon: 'people' },
-  { id: 'power_outlet', label: 'Power Outlet', icon: 'flash' },
-  { id: 'window', label: 'Window Seat', icon: 'sunny' },
-  { id: 'whiteboard', label: 'Whiteboard', icon: 'easel' },
+  { id: 'all', label: 'All Spots', icon: 'apps-outline' },
+  { id: 'silent', label: 'Silent', icon: 'volume-off-outline' },
+  { id: 'group', label: 'Group', icon: 'people-outline' },
+  { id: 'power_outlet', label: 'Power', icon: 'flash-outline' },
+  { id: 'window', label: 'Window', icon: 'sunny-outline' },
+  { id: 'whiteboard', label: 'Whiteboard', icon: 'easel-outline' },
 ];
 
 export const getSpotColor = (status: string): string => {
   switch (status) {
-    case 'available':
-      return '#4CAF50'; // Green
-    case 'occupied':
-      return '#F44336'; // Red  
-    case 'onhold':
-      return '#FF9800'; // Orange/Yellow
-    default:
-      return '#9E9E9E'; // Gray
+    case 'available': return '#1DB954';
+    case 'occupied': return '#EF4444';
+    case 'onhold': return '#F59E0B';
+    default: return '#A7A7A7';
   }
 };
 
 export const getFeatureIcon = (feature: string): string => {
   const iconMap: { [key: string]: string } = {
-    'power_outlet': 'flash',
-    'window': 'sunny',
-    'whiteboard': 'easel',
-    'projector': 'videocam',
-    'lamp': 'bulb',
-    'lockable': 'lock-closed',
-    'privacy': 'eye-off',
+    power_outlet: 'flash-outline',
+    window: 'sunny-outline',
+    whiteboard: 'easel-outline',
+    projector: 'videocam-outline',
+    lamp: 'bulb-outline',
+    lockable: 'lock-closed-outline',
+    privacy: 'eye-off-outline',
   };
-  return iconMap[feature] || 'checkmark-circle';
+  return iconMap[feature] || 'checkmark-circle-outline';
 };
+
+export const bookingHistory = [
+    { id: '1', deskNumber: '2B', floor: 2, date: '2025-09-25', duration: '1h 45m', status: 'Completed' },
+    { id: '2', deskNumber: '1A', floor: 1, date: '2025-09-24', duration: '2h 15m', status: 'Completed' },
+    { id: '3', deskNumber: '3C', floor: 3, date: '2025-09-23', duration: '3h 30m', status: 'Completed' },
+];

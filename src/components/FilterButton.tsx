@@ -1,7 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 
 interface FilterOption {
   id: string;
@@ -19,120 +18,65 @@ const FilterButton: React.FC<FilterButtonProps> = ({ filter, isSelected, onPress
   const scaleValue = React.useRef(new Animated.Value(1)).current;
 
   const handlePress = () => {
-    Animated.sequence([
-      Animated.timing(scaleValue, {
-        toValue: 0.95,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleValue, {
+    Animated.spring(scaleValue, {
+      toValue: 0.95,
+      friction: 5,
+      useNativeDriver: true,
+    }).start(() => {
+      Animated.spring(scaleValue, {
         toValue: 1,
-        duration: 100,
+        friction: 5,
         useNativeDriver: true,
-      }),
-    ]).start();
-
+      }).start();
+    });
     onPress();
   };
 
-  if (isSelected) {
-    return (
-      <Animated.View
-        style={[
-          styles.container,
-          { transform: [{ scale: scaleValue }] },
-        ]}
-      >
-        <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
-          <LinearGradient
-            colors={['#6366F1', '#8B5CF6']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.selectedButton}
-          >
-            <Ionicons 
-              name={filter.icon as keyof typeof Ionicons.glyphMap} 
-              size={16} 
-              color="#FFFFFF" 
-            />
-            <Text style={styles.selectedText}>{filter.label}</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </Animated.View>
-    );
-  }
-
   return (
-    <Animated.View
-      style={[
-        styles.container,
-        { transform: [{ scale: scaleValue }] },
-      ]}
-    >
+    <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
       <TouchableOpacity
-        style={styles.unselectedButton}
+        style={[styles.button, isSelected ? styles.selected : styles.unselected]}
         onPress={handlePress}
         activeOpacity={0.8}
       >
-        <Ionicons 
-          name={filter.icon as keyof typeof Ionicons.glyphMap} 
-          size={16} 
-          color="#6B7280" 
+        <Ionicons
+          name={filter.icon as any}
+          size={16}
+          color={isSelected ? '#FFFFFF' : '#A7A7A7'}
         />
-        <Text style={styles.unselectedText}>{filter.label}</Text>
+        <Text style={[styles.text, isSelected ? styles.selectedText : styles.unselectedText]}>
+          {filter.label}
+        </Text>
       </TouchableOpacity>
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginRight: 12,
-  },
-  selectedButton: {
+  button: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 20,
-    shadowColor: '#6366F1',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
+    marginRight: 10,
   },
-  unselectedButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 20,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 4,
+  selected: {
+    backgroundColor: '#1DB954',
+  },
+  unselected: {
+    backgroundColor: '#282828',
+  },
+  text: {
+    fontSize: 14,
+    marginLeft: 8,
   },
   selectedText: {
     color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
-    marginLeft: 6,
+    fontWeight: 'bold',
   },
   unselectedText: {
-    color: '#6B7280',
-    fontSize: 14,
-    fontWeight: '500',
-    marginLeft: 6,
+    color: '#A7A7A7',
   },
 });
 
